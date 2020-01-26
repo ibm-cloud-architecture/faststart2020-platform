@@ -87,7 +87,7 @@ How can you create that object? ___________ or ____________
 2. You can use either the Web console or the CLI to create the necessary object. The simplest method is running the CLI command (substitute your service name):
 
   ```
-  oc expose <service>
+  oc expose svc <your-service>
   ```
 
 3. Go back to the topology view. Has a new object been created? ____<br>What is the type of the new object? __________ <br>![Modified topology](images/101-modtopo.png)
