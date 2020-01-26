@@ -22,7 +22,7 @@ Make sure your environment has the necessary prerequisites.
 
 Lets start with you logging into the cluster. You will be assigned a URL and a login id.
 
-- Console URL: `https://console-openshift-console.apps.ocp42faststart-aws.faststart.tk`
+- Console URL: `:https://console-openshift-console.apps.ocp42ss.vbudi.cf/`
 - User ID: `userXX`
 - Password:  _________
 
