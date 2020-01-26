@@ -30,6 +30,8 @@ Follow these instructions to perform the exercise:
 
 1. Open a Web browser and go to the Console URL.
 
+   - Under `Log in with...`, click in the bottom field labeled `htpasswdidp`. <br>![OpenShift login](images/000-loginfield.png)
+
 2. Login with your user ID and password. <br>![OpenShift login](images/001-ocplogin.png)
 
 3. The view on the OpenShift console is the Application Developer view. If you are in the Adminstrator view, select the Administrator drop down and choose Developer. <br>![Developer view](images/301-adminview.png)
