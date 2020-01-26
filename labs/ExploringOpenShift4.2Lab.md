@@ -137,6 +137,12 @@ You can create a new YAML file based on the above snippet. In that new file, cha
 
 Play the game again and check the results. Is it now removing the pods? ______ and how about the services? _______  
 
+You can watch the Pods while killing it, just run the command:
+```
+oc get pods -w
+```
+Ctrl+C to break out the watch.
+
 ![Pending pods](images/201-pending.png)
 
 ## Step 4 - Demonstrate Storage provisioning
