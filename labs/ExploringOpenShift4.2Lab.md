@@ -142,7 +142,7 @@ You can create a new YAML file based on the above snippet. In that new file, cha
 
 Play the game again and check the results. Is it now removing the pods? ______ and how about the services? _______  
 
-You can watch the Pods while killing it, just run the command:
+You can watch the pods while killing them. Just run the following command:
 
 ```
 oc get pods -w
@@ -153,11 +153,11 @@ Ctrl+C to break out the watch.
 
 ## Step 4 - Demonstrate Storage provisioning
 
-OpenShift dynamic storage provisioning allows creation of a PhysicalVolumeClaim (PVC) based on a StorageClass. That means that an application can directly request a PVC without individually creating a PhysicalVolume (PV) to back it up.
+OpenShift dynamic storage provisioning allows the creation of a PhysicalVolumeClaim (PVC) based on a StorageClass. That means that an application can directly request a PVC without individually creating a PhysicalVolume (PV) to back it up.
 
 1. In the OpenShift environment, check whether you have a StorageClass defined. Change to the Administrator view from the Developer view from the OpenShift Web console. <br>![Admin view](images/301-adminview.png)
 
-2. Select in the left Navigation menu **Storage > Storage Classes** - take a note on the storage class name.
+2. Select in the left Navigation menu **Storage > Storage Classes** - take note of the storage class name.
 
 3. Now go to **Storage > Persistent Volume Claims** and click **Create Persistent Volume Claim**; select the Storage Class, give a name and size (1 Gi) and click **Create**. <br>![create pvc](images/302-createpvc.png)
 
@@ -170,7 +170,7 @@ OpenShift dynamic storage provisioning allows creation of a PhysicalVolumeClaim 
 5. Go back to the game and wait until a PVC object is shown (similar to a Drum or a Disk). When you click on it, go back to the PVC page and refresh it. It will show a 404 because the PVC is no longer there. <br>![pvc gone](images/304-notfound.png)
 
 
-## Step 5 - Challenge: Why the service is not getting deleted? Explore the Source code (**Optional**)
+## Step 5 - Challenge: Why is the service not getting deleted? Explore the Source code (**Optional**)
 
 Now that the game is working, destroying cluster components as you click on them, what about the service? The service never gets destroyed when you click on the icon. Why?
 
@@ -179,14 +179,14 @@ The source is in the file `PlatformObjectHelper.java`
 
 ## Step 6 - Explore OpenShift Application Deployment tools
 
-Now that you already understand how to deploy application to OpenShift, be aware that what you just did in the previous exercises are applicable to any Kubernetes environment, not just to OpenShift. 
-Lets try working with some OpenShift specific resources. Those are the BuildConfig and the DeploymentConfig. 
-The BuildConfig allows OpenShift to detect changes on the source application and build the container image for deployment. 
-This feature is called Source2Image (S2I). The image is then packaged into a DeploymentConfig, which essentially a Deployment with additional capabilities. 
+Now that you already understand how to deploy applications to OpenShift, be aware that what you just did in the previous exercises is applicable to any Kubernetes environment, not just to OpenShift. 
+Now let's try working with some OpenShift specific resources. These resources are the **BuildConfig** and the **DeploymentConfig**. 
+The BuildConfig allows OpenShift to detect changes in the source application and automatically build the container image for deployment. 
+This feature is called **Source2Image (S2I)**. The container image from the BuildConfig is packaged into a DeploymentConfig, which is essentially a deployment with additional capabilities. 
 
-In the previous exercises, a separate YAML definitions are needed to just deploy an existing image in Dockerhub. So lets perform a new application creation directly from a GIThub repository.
+In the previous exercises, a separate YAML definition is needed to just deploy an existing image from Dockerhub. So let's perform a new application creation directly from a github repository using the Source2Image capability.
 
-1. From the command line, run the following command:
+1. From the command line, run the following command, substituting your user name at the end:
 
 	```
 	oc new-app --code=https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
@@ -194,24 +194,24 @@ In the previous exercises, a separate YAML definitions are needed to just deploy
 
 	![New Application](images/600-newapp.png)
 
-	- How many objects are created from the commands? ________
-	- There are two imagestream objects are created, what are their uses? _________________ and __________________
-	- Apart from the imagestream and service, what other objects types are being created? ________________ and ________________
+	- How many objects are created from this command? ________
+	- There are two imagestream objects created. What are their uses? _________________ and __________________
+	- Apart from the imagestream and service, what other object types are created? ________________ and ________________
 
-2. Check the buildConfig object, from the OpenShift Console, go to **Builds** > **Build Configs**. Select the BuildConfig that you created and answer the following questions:
+2. Check the BuildConfig object. From the OpenShift Console, go to **Builds** > **Build Configs**. Select the BuildConfig that you created and answer the following questions:
 
-	- How the BuildConfig run the build process? ________
-	- Where is the output of the Build will be stored? __________________
+	- How does the BuildConfig run the build process? ________
+	- Where is the output of the build process stored? __________________
 	- Specify one event that can initiate the build process? ____________________
 
 	![BuildConfig](images/601-buildconfig.png)
 
-3. Click on the **Builds** tab and select the most recent build and then go to the **Logs** tab. If the build is not complete, you should wait until the end of the logs shows `Push successful`.
+3. Click on the **Builds** tab, select the most recent build and then go to the **Logs** tab. If the build is not complete, you should wait until the end of the log shows `Push successful`.
 
-	- What are the steps that are being performed? ___________________
-	- Where does the image being stored? ______________________________
+	- What are the steps being performed? ___________________
+	- Where does the image get stored? ______________________________
 
-4. Switch back to the developer view and select **Topology**. <br>![Topology with DC](images/602-topology.png)
+4. Switch back to the Developer view and select **Topology**. <br>![Topology with DC](images/602-topology.png)
 
 5. Select the DeploymentConfig object and evaluate the object properties. <br>![DeploymentConfig](images/603-dc.png)
 
@@ -229,7 +229,7 @@ In the previous exercises, a separate YAML definitions are needed to just deploy
 
 ## Step 7 - Clean up
 
-Please clean up after yourself, run the following commands from a terminal session:
+Please clean up after yourself. Run the following commands from your terminal session:
 
 ```
 oc delete rolebinding edit
