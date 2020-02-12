@@ -192,6 +192,8 @@ In the previous exercises, a separate YAML definitions are needed to just deploy
 	oc new-app --code=https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
 	```
 
+	![New Application](images/600-newapp.png)
+
 	- How many objects are created from the commands? ________
 	- There are two imagestream objects are created, what are their uses? _________________ and __________________
 	- Apart from the imagestream and service, what other objects types are being created? ________________ and ________________
