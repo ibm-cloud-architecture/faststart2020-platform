@@ -11,27 +11,32 @@ In this session, you will play a game with OpenShift objects as targets. This ga
 
 ## Step 1 - Accessing OpenShift and preparing your environment
 
-Before you work with this lab, you must have the following pre-requisites:
+Before you work with this lab, 
+make sure your environment has the necessary prerequisites.
+You must have the following pre-requisites:
 
 - A Web browser (Chrome or Safari or Firefox)
 - Familiarity with running CLI commands in your environment
 - Git command line - see https://gist.github.com/derhuerst/1b15ff4652a867391f03
-- The `oc` command - download from https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/. Install `openshift-client`, not `openshift-install`.
+- The `oc` command - download from https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.2.16/. Install `openshift-client`, not `openshift-install`.
 
-Make sure your environment has the necessary prerequisites.
+If you are Mac user, download the `openshift-client-mac-4.2.16.tar.gz` file, untar it with:
+```
+cd <oc-download-directory>
+tar -xvf openshift-client-mac-4.2.16.tar.gz
+sudo mv oc /usr/local/bin/oc
+```
 
 Lets start with you logging into the cluster. You will be assigned a URL and a login id.
 
-- Console URL: `https://console-openshift-console.apps.ocp4faststart-aws.faststart.tk`
+- Console URL: [https://console-openshift-console.apps.ocp4faststart-aws.faststart.tk](https://console-openshift-console.apps.ocp4faststart-aws.faststart.tk)
 - User ID: `userXX`
 - Password:  _________
 
 Follow these instructions to perform the exercise:
 
-1. Open a Web browser and go to the Console URL.
+1. Open a Web browser and go to the Console URL [https://console-openshift-console.apps.ocp4faststart-aws.faststart.tk](https://console-openshift-console.apps.ocp4faststart-aws.faststart.tk)
 
-<!--   - Under `Log in with...`, click in the bottom field labeled `htpasswdidp`. <br><br>![OpenShift login](images/000-loginfield.png)
--->
 
 2. Login with your user ID and password. <br>![OpenShift login](images/001-ocplogin.png)
 
@@ -75,12 +80,20 @@ If you saved your user id and password on your first login, your `Username` and 
 	oc create -f k8s.yaml
 	```
 
-9. Go to the OpenShift console and click on **Topology** on the left navigation pane. Click on the OpenShift icon to get the detailed information. <br>![OpenShift environment](images/006-topology.png)
+9. Go to the OpenShift console, switch to *Developer* view and click on **Topology** on the left navigation pane. Click on the OpenShift icon to get the detailed information. <br>![OpenShift environment](images/006-topology.png)
 
 	- How many Pods were created? _____
 	- What type of service was created? _______________
 	- What object(s) have been defined but are not shown in the topology? _________
 
+Click on one of the Pods. In the Pod view, explore the different tabs: YAML, Logs, Event.
+![OpenShift Pods View](images/007-podview.png)
+
+Now go to your command line terminal (or console), issue the commmand:
+```
+oc get pods
+```
+You should see all the Pods there.
 
 10. Can you access the application right now? ___________ <br>If yes, what is the URL of the application? __________________________________________
 
@@ -93,9 +106,22 @@ How can you create that object? ___________ or ____________
 
 2. You can use either the Web console or the CLI to create the necessary object. The simplest method is running the CLI command (substitute your service name):
 
+
+  ```
+  oc get svc
+  ```
+  You should see similar as:
+  ```
+  NAME       TYPE       CLUSTER-IP        EXTERNAL-IP   PORT(S)          AGE
+  wildwest   NodePort   192.168.128.131   <none>        8080:31995/TCP   8m16s
+  ```
+  
+  Now, let's get your service exposed to the Internet.
+
 	```
-	oc expose svc <your-service>
+	oc expose svc wildwest
 	```
+
 
 3. Go back to the topology view. Has a new object been created? ____<br>What is the type of the new object? __________ <br>![Modified topology](images/101-modtopo.png)
 
@@ -107,11 +133,11 @@ How can you create that object? ___________ or ____________
 
 4. Right-click on the new object to get to your application in a new window, it should look similar to:<br>![wildwestapp](images/102-wildwest.png)
 
-5. Play with the application for a little bit. Have your browser windows with the game and the topology with pod status shown side by side. Does the game work? _______
+5. Play with the application for a little bit. Have your browser windows with the game and the topology with pod status shown side by side. Is any pod killed/destroyed? Is the game working? _______
 
 ### Step 3 - Demonstrate Service Accounts and Role Bindings
 
-Now let's try to see why even when you shoot the Kubernetes objects, they are not affected. Even though you see an explosion in the game, your topology pod status page does not show any pods being crashed. Let's go back and look at the RoleBinding object that you created in the `k8s.yaml` file.
+Now let's try to see why even when you shoot the Kubernetes objects, they are not affected. Even though you see an explosion in the game, your topology pod status page does not show any pods being terminated. Let's go back and look at the RoleBinding object that you created in the `k8s.yaml` file.
 
 ```
 apiVersion: rbac.authorization.k8s.io/v1
@@ -128,7 +154,7 @@ subjects:
     name: default
 ```
 
-Pods are run based on the authority of a ServiceAccount. In each project, the `default` ServiceAccount runs all pods that are not specifically assigned to any other ServiceAccount.
+Pods run based on the authority of a ServiceAccount. In each project, the `default` ServiceAccount runs all pods that are not specifically assigned to any other ServiceAccount.
 
 If you look at the yaml above, you see that the RoleBinding we have deployed allows the ServiceAccount `default` to VIEW objects in the OpenShift cluster. This is a read-only role. Therefore it can discover the pods and services, but the role does not allow the pods to be destroyed or changed.
 
@@ -138,6 +164,23 @@ You can create a new YAML file based on the above snippet. In that new file, cha
 
   ```
   oc apply -f <yamlfilename>
+  ```
+
+  Your yaml file should look like:
+
+  ```
+  apiVersion: rbac.authorization.k8s.io/v1
+  kind: RoleBinding
+  metadata:
+    creationTimestamp: null
+    name: edit
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: edit
+  subjects:
+    - kind: ServiceAccount
+      name: default
   ```
 
 Play the game again and check the results. Is it now removing the pods? ______ and how about the services? _______  
@@ -189,13 +232,13 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 1. From the command line, run the following command, substituting your user name at the end:
 
 	```
-	oc new-app --code=https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
+	oc new-app openshift/java:11~https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
 	```
 
 	![New Application](images/600-newapp.png)
 
 	- How many objects are created from this command? ________
-	- There are two imagestream objects created. What are their uses? _________________ and __________________
+	- How an imagestream differs from a simple Container image? _______________________
 	- Apart from the imagestream and service, what other object types are created? ________________ and ________________
 
 2. Check the BuildConfig object. From the OpenShift Console, go to **Builds** > **Build Configs**. Select the BuildConfig that you created and answer the following questions:
@@ -210,6 +253,8 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 
 	- What are the steps being performed? ___________________
 	- Where does the image get stored? ______________________________
+
+	![Build log](images/6011-buildlog.png)
 
 4. Switch back to the Developer view and select **Topology**. <br>![Topology with DC](images/602-topology.png)
 
@@ -241,6 +286,7 @@ oc delete route wildwest-s2i
 oc delete service wildwest-s2i
 oc delete deploymentconfig wildwest-s2i
 oc delete buildconfig wildwest-s2i
+oc delete imagestream wildwest-s2i
 oc delete project wild-west-userXX
 oc logout
 ```
