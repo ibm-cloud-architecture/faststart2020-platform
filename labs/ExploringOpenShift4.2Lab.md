@@ -16,7 +16,15 @@ Before you work with this lab, you must have the following pre-requisites:
 - A Web browser (Chrome or Safari or Firefox)
 - Familiarity with running CLI commands in your environment
 - Git command line - see https://gist.github.com/derhuerst/1b15ff4652a867391f03
-- The `oc` command - download from https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/. Install `openshift-client`, not `openshift-install`.
+- The `oc` command - download from https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.2.16/. Install `openshift-client`, not `openshift-install`.
+
+If you are Mac user, download the `openshift-client-mac-4.2.16.tar.gz` file, untar it with:
+```
+cd <oc-download-directory>
+tar -xvf openshift-client-mac-4.2.16.tar.gz
+sudo mv oc /usr/local/bin/oc
+```
+
 
 Make sure your environment has the necessary prerequisites.
 
@@ -108,6 +116,8 @@ How can you create that object? ___________ or ____________
   NAME       TYPE       CLUSTER-IP        EXTERNAL-IP   PORT(S)          AGE
   wildwest   NodePort   192.168.128.131   <none>        8080:31995/TCP   8m16s
   ```
+  
+  Now, let's get your service exposed to the Internet.
 
 	```
 	oc expose svc wildwest
@@ -223,7 +233,7 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 1. From the command line, run the following command, substituting your user name at the end:
 
 	```
-	oc new-app --code=https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
+	oc new-app openshift/java:11~https://github.com/gangchen03/wild-west-kubernetes.git --name=wildwest-s2i --env "K8S_NAMESPACE=wild-west-userXX"
 	```
 
 	![New Application](images/600-newapp.png)
