@@ -11,7 +11,9 @@ In this session, you will play a game with OpenShift objects as targets. This ga
 
 ## Step 1 - Accessing OpenShift and preparing your environment
 
-Before you work with this lab, you must have the following pre-requisites:
+Before you work with this lab, 
+make sure your environment has the necessary prerequisites.
+You must have the following pre-requisites:
 
 - A Web browser (Chrome or Safari or Firefox)
 - Familiarity with running CLI commands in your environment
@@ -24,9 +26,6 @@ cd <oc-download-directory>
 tar -xvf openshift-client-mac-4.2.16.tar.gz
 sudo mv oc /usr/local/bin/oc
 ```
-
-
-Make sure your environment has the necessary prerequisites.
 
 Lets start with you logging into the cluster. You will be assigned a URL and a login id.
 
@@ -239,7 +238,7 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 	![New Application](images/600-newapp.png)
 
 	- How many objects are created from this command? ________
-	- There are two imagestream objects created. What are their uses? _________________ and __________________
+	- How an imagestream differs from a simple Container image? _______________________
 	- Apart from the imagestream and service, what other object types are created? ________________ and ________________
 
 2. Check the BuildConfig object. From the OpenShift Console, go to **Builds** > **Build Configs**. Select the BuildConfig that you created and answer the following questions:
@@ -254,6 +253,8 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 
 	- What are the steps being performed? ___________________
 	- Where does the image get stored? ______________________________
+
+	![Build log](images/6011-buildlog.png)
 
 4. Switch back to the Developer view and select **Topology**. <br>![Topology with DC](images/602-topology.png)
 
@@ -285,6 +286,7 @@ oc delete route wildwest-s2i
 oc delete service wildwest-s2i
 oc delete deploymentconfig wildwest-s2i
 oc delete buildconfig wildwest-s2i
+oc delete imagestream wildwest-s2i
 oc delete project wild-west-userXX
 oc logout
 ```
