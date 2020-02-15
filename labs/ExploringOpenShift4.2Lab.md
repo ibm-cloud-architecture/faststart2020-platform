@@ -277,6 +277,44 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 7. What do you think the route will be called? _________________________________
 <br>Can you access the application? _______
 
+
+8. Now let's have a little bit more fun. So far, you've been deploying somebody else's code (either through container image or from git source code). How about change the source code and deploy to OpenShift? Ideally, you would git fork the original git repository (https://github.com/gangchen03/wild-west-kubernetes) then edit the source code from your git fork. For simpliciity, we'll just let you work on the code locally. And yes, OpenShift allows you to deploy changed source code from the local file system via s2i.
+
+let's modify the game index HTML page:
+```
+cd wild-west-kubernetes 
+
+# Use your favored text editor 
+vi src/main/resources/static/index.html   
+```
+
+locate the line `<h1>Wild West</h1>` (line 25) and change it to:
+```
+<h1>Wild West FastStart</h1>
+```
+Save the change
+
+9. Deploy the updated source code by triggering the OpenShift build. When you created the new app in step one, OpenShift automatically created a buildConfig object for you:
+
+```
+oc get bc
+```
+
+Now, kick of the build:
+```
+oc start-build bc/wildwest-s2i --from-dir=.
+```
+This tells OpenShift that you will build the Application with source from local directory.
+Watch the build process:
+
+```
+oc logs -f bc/wildwest-s2i
+```
+
+10. Validate your change. Open the browser to the game page, you should see your change as shown below:
+  ![Application Change](images/0010-applicationchg.png)
+
+
 ## Step 7 - Clean up
 
 Please clean up after yourself. Run the following commands from your terminal session:
