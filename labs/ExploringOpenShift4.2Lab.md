@@ -183,6 +183,11 @@ You can create a new YAML file based on the above snippet. In that new file, cha
       name: default
   ```
 
+For busy learners, you can just go to the git repo directory and use the `kubernetes/destructive.yaml` file:
+```
+oc apply -f destructive.yaml
+```
+
 Play the game again and check the results. Is it now removing the pods? ______ and how about the services? _______  
 
 You can watch the pods while killing them. Just run the following command:
