@@ -86,14 +86,14 @@ If you saved your user id and password on your first login, your `Username` and 
 	- What type of service was created? _______________
 	- What object(s) have been defined but are not shown in the topology? _________
 
-Click on one of the Pods. In the Pod view, explore the different tabs: YAML, Logs, Event.
-![OpenShift Pods View](images/007-podview.png)
+	Click on one of the Pods. In the Pod view, explore the different tabs: YAML, Logs, Event.
+	![OpenShift Pods View](images/007-podview.png)
 
-Now go to your command line terminal (or console), issue the commmand:
-```
-oc get pods
-```
-You should see all the Pods there.
+	Now go to your command line terminal (or console), issue the commmand:
+	```
+	oc get pods
+	```
+	You should see all the Pods there.
 
 10. Can you access the application right now? ___________ <br>If yes, what is the URL of the application? __________________________________________
 
@@ -104,19 +104,19 @@ In the first challenge here, you work to enable the application to be accessed.
 1. What object is needed for the application to be accessible for you? ____________<br>
 How can you create that object? ___________ or ____________
 
-2. You can use either the Web console or the CLI to create the necessary object. The simplest method is running the CLI command (substitute your service name):
+2. You can use either the Web console or the CLI to create the necessary object. The simplest method is running the CLI command:
 
 
-  ```
-  oc get svc
-  ```
-  You should see similar as:
-  ```
-  NAME       TYPE       CLUSTER-IP        EXTERNAL-IP   PORT(S)          AGE
-  wildwest   NodePort   192.168.128.131   <none>        8080:31995/TCP   8m16s
-  ```
+	```
+	oc get svc
+	```
+	You should see similar as:
+	```
+	NAME       TYPE       CLUSTER-IP        EXTERNAL-IP   PORT(S)          AGE
+	wildwest   NodePort   192.168.128.131   <none>        8080:31995/TCP   8m16s
+	```
   
-  Now, let's get your service exposed to the Internet.
+	Now, let's get your service exposed to the Internet.
 
 	```
 	oc expose svc wildwest
@@ -280,36 +280,39 @@ In the previous exercises, a separate YAML definition is needed to just deploy a
 
 8. Now let's have a little bit more fun. So far, you've been deploying somebody else's code (either through container image or from git source code). How about change the source code and deploy to OpenShift? Ideally, you would git fork the original git repository (https://github.com/gangchen03/wild-west-kubernetes) then edit the source code from your git fork. For simpliciity, we'll just let you work on the code locally. And yes, OpenShift allows you to deploy changed source code from the local file system via s2i.
 
-let's modify the game index HTML page:
-```
-cd wild-west-kubernetes 
+	Let's modify the game index HTML page. Go to the main repository directory that you cloned in Step 1:
+	```
+	cd wild-west-kubernetes 
+	```
 
-# Use your favored text editor 
-vi src/main/resources/static/index.html   
-```
+	Edit the static index.html using your favorite text editor such as:
 
-locate the line `<h1>Wild West</h1>` (line 25) and change it to:
-```
-<h1>Wild West FastStart</h1>
-```
-Save the change
+	```
+	vi src/main/resources/static/index.html   
+	```
 
-9. Deploy the updated source code by triggering the OpenShift build. When you created the new app in step one, OpenShift automatically created a buildConfig object for you:
+	Locate the line `<h1>Wild West</h1>` (line 25) and change it to:
+	```
+	<h1>Wild West FastStart</h1>
+	```
+	Save the change (`:wq!`).
 
-```
-oc get bc
-```
+9. Deploy the updated source code by triggering the OpenShift build. When you created the new app in step one, OpenShift automatically created a BuildConfig object for you:
 
-Now, kick of the build:
-```
-oc start-build bc/wildwest-s2i --from-dir=.
-```
-This tells OpenShift that you will build the Application with source from local directory.
-Watch the build process:
+	```
+	oc get bc
+	```
 
-```
-oc logs -f bc/wildwest-s2i
-```
+	Now, start a new build:
+	```
+	oc start-build bc/wildwest-s2i --from-dir=.
+	```
+	This tells OpenShift that you will build the Application with source from local directory.
+	Watch the build process:
+
+	```
+	oc logs -f bc/wildwest-s2i
+	```
 
 10. Validate your change. Open the browser to the game page, you should see your change as shown below:
   ![Application Change](images/0010-applicationchg.png)
