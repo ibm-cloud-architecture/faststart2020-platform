@@ -201,7 +201,7 @@ Ctrl+C to break out the watch.
 
 ## Step 4 - Demonstrate Storage provisioning
 
-OpenShift dynamic storage provisioning allows the creation of a PhysicalVolumeClaim (PVC) based on a StorageClass. That means that an application can directly request a PVC without individually creating a PhysicalVolume (PV) to back it up.
+OpenShift dynamic storage provisioning allows the creation of a PersistentVolumeClaim (PVC) based on a StorageClass. That means that an application can directly request a PVC without individually creating a PhysicalVolume (PV) to back it up.
 
 1. In the OpenShift environment, check whether you have a StorageClass defined. Change to the Administrator view from the Developer view from the OpenShift Web console. <br>![Admin view](images/301-adminview.png)
 
