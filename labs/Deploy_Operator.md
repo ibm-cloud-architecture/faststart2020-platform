@@ -415,9 +415,9 @@ The Etcd Operator will detect the Custom Resource `spec.size` change and modif
 4. Delete the Role, RoleBinding and ServiceAccount:
 
 	```
-	oc delete etcd-operator-rolebinding
-	oc delete etcd-operator-role
-	oc delete etcd-operator-sa
+	oc delete rolebinding/etcd-operator-rolebinding
+	oc delete role/etcd-operator-role
+	oc delete sa/etcd-operator-sa
 	```
 
 4. Delete the project - remember to change the userXX to your userId:
