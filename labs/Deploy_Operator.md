@@ -16,8 +16,11 @@ This exercise requires you to have the `oc` cli which can be downloaded from `ht
 Perform the following steps:
 
 1. Let's begin by logging in to OpenShift and creating a new project called operator-userXX (replace userXX with your lab userId)
+Open a command line terminal window, create a directory for example `/tmp/operatorlab`, navigate into the folder
 
 	```
+	mkdir /tmp/operatorlab
+	cd /tmp/operatorlab
 	oc login https://api.ocp4faststart-aws.faststart.tk:6443/ --insecure-skip-tls-verify=true -u userXX -p <password>
 	oc new-project operator-userXX
 	```
