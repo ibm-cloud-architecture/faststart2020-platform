@@ -395,7 +395,9 @@ The Etcd Operator will detect the Custom Resource `spec.size` change and modif
 3. When the pod is recreated, is it the cluster (Kubernetes) automation (ie ReplicaSet) or the Operator doing it? _____
   Why? ____________________________________
 
-## Step 8: Clean Up
+## Step 8: Clean Up (Be careful)!
+<details>
+  <summary>Be Careful!</summary>
 
 1. Delete your Etcd cluster:
 
@@ -428,3 +430,4 @@ The Etcd Operator will detect the Custom Resource `spec.size` change and modif
 	```
 	oc delete project operator-userXX
 	```
+</details>
