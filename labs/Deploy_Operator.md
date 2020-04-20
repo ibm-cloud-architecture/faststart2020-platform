@@ -411,13 +411,7 @@ The Etcd Operator will detect the Custom Resource `spec.size` change and modif
 	oc delete deployment etcd-operator
 	```
 
-3. Delete the Etcd CRD:
-
-	```
-	oc delete crd etcdclusters.etcd.database.coreos.com
-	```
-
-4. Delete the Role, RoleBinding and ServiceAccount:
+3. Delete the Role, RoleBinding and ServiceAccount:
 
 	```
 	oc delete rolebinding/etcd-operator-rolebinding
